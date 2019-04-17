@@ -100,8 +100,35 @@ public class Test {
 	
 	private static void removeAccount() {
 		
-		System.out.println("\n---REMOVE ACCOUNT---\n\n"
-				+ "**Will Be Updated In Future**");
+		int accNumber, pin;
+		if (accountList.isEmpty()) {
+			existingAccs();
+			return;
+		}
+		System.out.println("\n---REMOVE ACCOUNT---\n");
+		do {
+			System.out.print("Account Number: ");
+			accNumber = input.nextInt();
+			if (Integer.toString(accNumber).length() != 6)
+				lenghtAcc();
+		} while (checkAccNumber(accNumber));
+		mainAcc = checkAcc(accountList, accNumber);
+		if (mainAcc == null)
+			existingAcc();
+		else {
+			do {
+				System.out.print("PIN: ");
+				pin = input.nextInt();
+				if (Integer.toString(pin).length() != 4)
+					lenghtPIN();
+			} while (checkPIN(pin) && mainAcc.getPin() != pin);
+			if (pin == mainAcc.getPin()) {
+				accountList.remove(mainAcc);
+				System.out.println("\n**You Have Removed Your Account Successfully!**\n");
+			}
+			else
+				System.out.println("\n**Wrong PIN**\n");
+		}
 		
 	}
 	
