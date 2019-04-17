@@ -11,11 +11,12 @@ public class Test {
 		
 		System.out.println("___________________________________________________________________\n"
 				+ "\n----MAIN MENU----\n\n"
-				+ "1. Create Account\n"
-				+ "2. Add Money\n"
-				+ "3. Withdraw Money\n"
-				+ "4. Transfter Money To Another Account\n"
-				+ "5. Account Info\n"
+				+ "1) Create Account\n"
+				+ "2) Remove Account\n"
+				+ "3) Add Money\n"
+				+ "4) Withdraw Money\n"
+				+ "5) Transfter Money To Another Account\n"
+				+ "6) Account Info\n"
 				+ "\n0. Exit\n"
 				+ "___________________________________________________________________\n");
 		System.out.print("Your Choice: ");
@@ -37,6 +38,12 @@ public class Test {
 	private static void lenghtAcc() {
 
 		System.out.println("\n**Lenght Of Account Number Is Six**\n");
+		
+	}
+
+	private static void lenghtPIN() {
+
+		System.out.println("\n**Lenght Of PIN Is Four**\n");
 		
 	}
 	
@@ -66,6 +73,15 @@ public class Test {
 		
 	}
 	
+	private static boolean checkPIN(int pin) {
+		
+		if (Integer.toString(pin).length() != 4)
+			return true;
+		else
+			return false;
+		
+	}
+	
 	private static void createAccount() {
 		
 		System.out.println("\n---CREATE ACCOUNT---\n");
@@ -82,6 +98,13 @@ public class Test {
 		
 	}
 	
+	private static void removeAccount() {
+		
+		System.out.println("\n---REMOVE ACCOUNT---\n\n"
+				+ "**Will Be Updated In Future**");
+		
+	}
+	
 	private static void addMoney() {
 		
 		if (accountList.isEmpty()) {
@@ -89,7 +112,7 @@ public class Test {
 			return;
 		}
 		
-		int accNumber;
+		int accNumber, pin;
 		double value;
 		System.out.println("\n---ADD MONEY---\n");
 		do {
@@ -99,17 +122,27 @@ public class Test {
 				lenghtAcc();
 		} while (checkAccNumber(accNumber));
 		mainAcc = checkAcc(accountList, accNumber);
-		if (mainAcc != null) {
-			do {
-				System.out.print("Value: ");
-				value = input.nextDouble();
-				if (value < 0)
-					belowZero();
-			} while (value < 0);
-			mainAcc.addBalance(value);
-			System.out.println("\n**Money Successfully Added To Your Account!**\n");
-		} else
+		if (mainAcc == null)
 			existingAcc();
+		else {
+			do {
+				System.out.print("PIN: ");
+				pin = input.nextInt();
+				if (Integer.toString(pin).length() != 4)
+					lenghtPIN();
+			} while (checkPIN(pin));
+			if (pin == mainAcc.getPin()) {
+				do {
+					System.out.print("Value: ");
+					value = input.nextDouble();
+					if (value < 0)
+						belowZero();
+				} while (value < 0);
+				mainAcc.addBalance(value);
+				System.out.println("\n**Money Successfully Added To Your Account!**\n");
+			} else
+				System.out.println("\n**Wrong PIN**\n");
+		}
 		
 	}
 	
@@ -120,7 +153,7 @@ public class Test {
 			return;
 		}
 		
-		int accNumber;
+		int accNumber, pin;
 		double value;
 		System.out.println("\n---WITHDRAWAL---\n");
 		do {
@@ -130,24 +163,34 @@ public class Test {
 				lenghtAcc();
 		} while (checkAccNumber(accNumber));
 		mainAcc = checkAcc(accountList, accNumber);
-		if (mainAcc != null) {
+		if (mainAcc == null)
+			existingAcc();
+		else {
 			if (mainAcc.getBalance() == 0) {
 				System.out.println("\n**Not Enough Founds On Selected Account For Withrawal!**\n");
 				return;
 			}
 			do {
-				System.out.print("Value: ");
-				value = input.nextDouble();
-				if (value < 0)
-					belowZero();
-				else if (value > mainAcc.getBalance())
+				System.out.print("PIN: ");
+				pin = input.nextInt();
+				if (Integer.toString(pin).length() != 4)
+					lenghtPIN();
+			} while (checkPIN(pin));
+			if (pin == mainAcc.getPin()) {
+				do {
+					System.out.print("Value: ");
+					value = input.nextDouble();
+					if (value < 0)
+						belowZero();
+					else if (value > mainAcc.getBalance())
 					System.out.println("\n**Not Enough Founds**\n");
-			} while (value < 0 || value > mainAcc.getBalance());
-			mainAcc.removeBalance(value);
-			System.out.println("\n**Don't Forget To PickUp Your Money Before Leaving! :)**\n");
-		} else
-			existingAcc();
-		
+				} while (value < 0 || value > mainAcc.getBalance());
+				mainAcc.removeBalance(value);
+				System.out.println("\n**Don't Forget To PickUp Your Money Before Leaving! :)**\n");
+			} else
+				System.out.println("\n**Wrong PIN**\n");
+		}
+
 	}
 	
 	private static void transferMoney() {
@@ -160,7 +203,7 @@ public class Test {
 			return;
 		}
 		
-		int accNumber;
+		int accNumber, pin;
 		double value;
 		System.out.println("\n---MONEY TRANSFER---\n");
 		do {
@@ -169,51 +212,61 @@ public class Test {
 			if (Integer.toString(accNumber).length() != 6)
 				lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		Account targetAcc = null;
 		mainAcc = checkAcc(accountList, accNumber);
-		if (mainAcc != null) {
+		Account targetAcc = null;
+		if (mainAcc == null)
+			existingAcc();
+		else {
 			if (mainAcc.getBalance() == 0) {
 				System.out.println("\n**Not Enough Founds On Selected Account For Transfer!**\n");
 				return;
 			}
 			do {
+				System.out.print("PIN: ");
+				pin = input.nextInt();
+				if (Integer.toString(pin).length() != 4)
+					lenghtPIN();
+			} while (checkPIN(pin));
+			if (pin == mainAcc.getPin()) {
 				do {
-					System.out.print("Target Account: ");
-					accNumber = input.nextInt();
-					if (Integer.toString(accNumber).length() != 6)
-						lenghtAcc();
-				} while (checkAccNumber(accNumber));
-				for (Account checkAcc: accountList) {
-					if (checkAcc.getNumber() == accNumber) {
-						targetAcc = checkAcc;
-						break;
+					do {
+						System.out.print("Target Account: ");
+						accNumber = input.nextInt();
+						if (Integer.toString(accNumber).length() != 6)
+							lenghtAcc();
+					} while (checkAccNumber(accNumber));
+					for (Account checkAcc: accountList) {
+						if (checkAcc.getNumber() == accNumber) {
+							targetAcc = checkAcc;
+							break;
+						}
 					}
-				}
-				if (targetAcc == null) {
-					existingAcc();
-					System.out.println();
-				} else if (targetAcc == mainAcc)
-					System.out.println("\n**You Can't Tranfer Money To Source Account**\n");
-			} while (targetAcc == null || targetAcc == mainAcc);
-			do {
-				System.out.print("Value: ");
-				value = input.nextDouble();
-				if (value < 0)
-					belowZero();
-				else if (value > mainAcc.getBalance())
-					System.out.println("\n**Not Enough Founds**\n");
-			} while (value < 0 || value > mainAcc.getBalance());
-			mainAcc.removeBalance(value);
-			targetAcc.addBalance(value);
-			System.out.println("\n**Transfer Successful!**\n");
-		} else
-			existingAcc();
+					if (targetAcc == null) {
+						existingAcc();
+						System.out.println();
+					} else if (targetAcc == mainAcc)
+						System.out.println("\n**You Can't Tranfer Money To Source Account**\n");
+				} while (targetAcc == null || targetAcc == mainAcc);
+				do {
+					System.out.print("Value: ");
+					value = input.nextDouble();
+					if (value < 0)
+						belowZero();
+					else if (value > mainAcc.getBalance())
+						System.out.println("\n**Not Enough Founds**\n");
+				} while (value < 0 || value > mainAcc.getBalance());
+				mainAcc.removeBalance(value);
+				targetAcc.addBalance(value);
+				System.out.println("\n**Transfer Successful!**\n");
+			} else
+				System.out.println("\n**Wrong PIN**\n");
+		}
 		
 	}
 	
 	private static void accStatus() {
 		
-		int accNumber;
+		int accNumber, pin;
 		if (accountList.isEmpty()) {
 			existingAccs();
 			return;
@@ -226,10 +279,22 @@ public class Test {
 				lenghtAcc();
 		} while (checkAccNumber(accNumber));
 		mainAcc = checkAcc(accountList, accNumber);
-		if (mainAcc != null) {
-			System.out.println(mainAcc);
-		} else
+		if (mainAcc == null)
 			existingAcc();
+		else {
+			do {
+				System.out.print("PIN: ");
+				pin = input.nextInt();
+				if (Integer.toString(pin).length() != 4)
+					lenghtPIN();
+			} while (checkPIN(pin) && mainAcc.getPin() != pin);
+			if (pin == mainAcc.getPin())
+				System.out.println(mainAcc);
+			else
+				System.out.println("\n**Wrong PIN**\n");
+		}
+
+
 		
 	}
 	
@@ -248,18 +313,22 @@ public class Test {
 				break;
 				
 			case 2:
-				addMoney();
+				removeAccount();
 				break;
 				
 			case 3:
-				withdrawMoney();
+				addMoney();
 				break;
 				
 			case 4:
-				transferMoney();
+				withdrawMoney();
 				break;
 				
 			case 5:
+				transferMoney();
+				break;
+				
+			case 6:
 				accStatus();
 				break;
 				
