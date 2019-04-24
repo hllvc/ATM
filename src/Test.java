@@ -145,7 +145,7 @@ public class Test {
 				AllText.lenghtAcc();
 		} while (checkAccNumber(accNumber));
 		account1 = checkAcc(AccountsList, accNumber);
-		if (Account1 == null)
+		if (account1 == null)
 			AllText.existingAcc();
 		else {
 			if (account1.getBalance() == 0) {
