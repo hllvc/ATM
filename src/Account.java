@@ -1,28 +1,54 @@
+import java.util.ArrayList;
 
-public class Account extends Number {
+public class Account {
 
-	private String name;
-	private String surname;
+	private double balance;
+	private int number;
+	private int pin;
+	private ArrayList<Integer> numbers = new ArrayList<>();
 	
-	public Account(String name, String surname) {
-		this.name = name;
-		this.surname = surname;
+	public Account() {
+		generateRandomNumber();
+		generateRandompin();
+		this.balance = 0;
 	}
 	
-	public String toString() {
-		return  "----------------------------------------------"
-				+ "\n--INFO--\n\n"
-				+ "-Name: " + this.name
-				+ "\n-Surname: " + this.surname
-				+ "\n-Account number: *" + this.getNumber() + "*"
-				+ "\n-PIN: *" + this.getPin() + "*"
-				+ "\n-Balance: $" + this.getBalance()
-				+ "\n----------------------------------------------\n";
+	private void generateRandomNumber() {
+		boolean existing;
+		do {
+			existing = false;
+			this.number = (int)(Math.random() * 899999 + 100000);
+			for (int x: this.numbers)
+				if (x == this.number) {
+					existing = true;
+					break;
+				}
+		} while (existing);
+		numbers.add(this.number);
 	}
 	
-	public String attention() {
-		return "\nWrite down your ACCOUNT NUMBER & PIN!\nWith your ACCOUNT NUMBER & PIN you ADD/WITHDRAW or TRANSFER money!";
- 
+	private void generateRandompin() {
+		this.pin = (int)(Math.random() * 8999 + 1000);
+	}
+	
+	public int getNumber() {
+		return this.number;
+	}
+	
+	public int getPin() {
+		return this.pin;
+	}
+	
+	public void addBalance(double balance) {
+		this.balance += balance;
+	}
+	
+	public void removeBalance(double balance) {
+		this.balance -= balance;
+	}
+	
+	public double getBalance() {
+		return this.balance;
 	}
 	
 }

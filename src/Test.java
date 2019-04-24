@@ -4,19 +4,19 @@ import java.util.Scanner;
 public class Test {
 	
 	private static Scanner input = new Scanner(System.in);
-	private static ArrayList<Account> accountList = new ArrayList<>();
-	private static Account mainAcc;
+	private static ArrayList<User> UserList = new ArrayList<>();
+	private static User mainAcc;
 	
 	private static void mainMenuText() {
 		
 		System.out.println("___________________________________________________________________\n"
 				+ "\n----MAIN MENU----\n\n"
-				+ "1) Create Account\n"
-				+ "2) Remove Account\n"
+				+ "1) Create User\n"
+				+ "2) Remove User\n"
 				+ "3) Add Money\n"
 				+ "4) Withdraw Money\n"
-				+ "5) Transfter Money To Another Account\n"
-				+ "6) Account Info\n"
+				+ "5) Transfter Money To Another User\n"
+				+ "6) User Info\n"
 				+ "\n0. Exit\n"
 				+ "___________________________________________________________________\n");
 		System.out.print("Your Choice: ");
@@ -25,19 +25,19 @@ public class Test {
 	
 	private static void existingAccs() {
 		
-		System.out.println("\n**There Are No Existing Accounts!**");
+		System.out.println("\n**There Are No Existing Users!**");
 		
 	}
 	
 	private static void existingAcc() {
 		
-		System.out.print("\n**Account doesn't exist!**\n");
+		System.out.print("\n**User doesn't exist!**\n");
 		
 	}
 	
 	private static void lenghtAcc() {
 
-		System.out.println("\n**Lenght Of Account Number Is Six**\n");
+		System.out.println("\n**Lenght Of User Number Is Six**\n");
 		
 	}
 
@@ -53,9 +53,9 @@ public class Test {
 		
 	}
 	
-	private static Account checkAcc(ArrayList<Account> accountList, int accNumber) {
+	private static User checkAcc(ArrayList<User> UserList, int accNumber) {
 		
-		for (Account checkAcc: accountList) {
+		for (User checkAcc: UserList) {
 			if (checkAcc.getNumber() == accNumber) {
 				return checkAcc;
 			}
@@ -82,37 +82,37 @@ public class Test {
 		
 	}
 	
-	private static void createAccount() {
+	private static void createUser() {
 		
-		System.out.println("\n---CREATE ACCOUNT---\n");
+		System.out.println("\n---CREATE User---\n");
 		input.nextLine();
 		String name, surname;
 		System.out.print("Your Name: ");
 		name = input.nextLine();
 		System.out.print("Your Surname: ");
 		surname = input.nextLine();
-		mainAcc = new Account(name, surname);
-		System.out.println("\n**You Have Created Your Account Successfully!**\n");
+		mainAcc = new User(name, surname);
+		System.out.println("\n**You Have Created Your User Successfully!**\n");
 		System.out.println(mainAcc + mainAcc.attention());
-		accountList.add(mainAcc);
+		UserList.add(mainAcc);
 		
 	}
 	
-	private static void removeAccount() {
+	private static void removeUser() {
 		
 		int accNumber, pin;
-		if (accountList.isEmpty()) {
+		if (UserList.isEmpty()) {
 			existingAccs();
 			return;
 		}
-		System.out.println("\n---REMOVE ACCOUNT---\n");
+		System.out.println("\n---REMOVE User---\n");
 		do {
-			System.out.print("Account Number: ");
+			System.out.print("User Number: ");
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
 				lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(accountList, accNumber);
+		mainAcc = checkAcc(UserList, accNumber);
 		if (mainAcc == null)
 			existingAcc();
 		else {
@@ -123,8 +123,8 @@ public class Test {
 					lenghtPIN();
 			} while (checkPIN(pin) && mainAcc.getPin() != pin);
 			if (pin == mainAcc.getPin()) {
-				accountList.remove(mainAcc);
-				System.out.println("\n**You Have Removed Your Account Successfully!**\n");
+				UserList.remove(mainAcc);
+				System.out.println("\n**You Have Removed Your User Successfully!**\n");
 			}
 			else
 				System.out.println("\n**Wrong PIN**\n");
@@ -134,7 +134,7 @@ public class Test {
 	
 	private static void addMoney() {
 		
-		if (accountList.isEmpty()) {
+		if (UserList.isEmpty()) {
 			existingAccs();
 			return;
 		}
@@ -143,12 +143,12 @@ public class Test {
 		double value;
 		System.out.println("\n---ADD MONEY---\n");
 		do {
-			System.out.print("Account Number: ");
+			System.out.print("User Number: ");
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
 				lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(accountList, accNumber);
+		mainAcc = checkAcc(UserList, accNumber);
 		if (mainAcc == null)
 			existingAcc();
 		else {
@@ -166,7 +166,7 @@ public class Test {
 						belowZero();
 				} while (value < 0);
 				mainAcc.addBalance(value);
-				System.out.println("\n**Money Successfully Added To Your Account!**\n");
+				System.out.println("\n**Money Successfully Added To Your User!**\n");
 			} else
 				System.out.println("\n**Wrong PIN**\n");
 		}
@@ -175,7 +175,7 @@ public class Test {
 	
 	private static void withdrawMoney() {
 		
-		if (accountList.isEmpty()) {
+		if (UserList.isEmpty()) {
 			existingAccs();
 			return;
 		}
@@ -184,17 +184,17 @@ public class Test {
 		double value;
 		System.out.println("\n---WITHDRAWAL---\n");
 		do {
-			System.out.print("Account Number: ");
+			System.out.print("User Number: ");
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
 				lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(accountList, accNumber);
+		mainAcc = checkAcc(UserList, accNumber);
 		if (mainAcc == null)
 			existingAcc();
 		else {
 			if (mainAcc.getBalance() == 0) {
-				System.out.println("\n**Not Enough Founds On Selected Account For Withrawal!**\n");
+				System.out.println("\n**Not Enough Founds On Selected User For Withrawal!**\n");
 				return;
 			}
 			do {
@@ -222,11 +222,11 @@ public class Test {
 	
 	private static void transferMoney() {
 		
-		if (accountList.isEmpty() || accountList.size() < 2) {
-			if (accountList.isEmpty())
+		if (UserList.isEmpty() || UserList.size() < 2) {
+			if (UserList.isEmpty())
 				existingAccs();
 			else
-				System.out.println("\n**Minimal Number Of Accounts For Transfer Is 2 (Two)!**\n");
+				System.out.println("\n**Minimal Number Of Users For Transfer Is 2 (Two)!**\n");
 			return;
 		}
 		
@@ -234,18 +234,18 @@ public class Test {
 		double value;
 		System.out.println("\n---MONEY TRANSFER---\n");
 		do {
-			System.out.print("Source Account: ");
+			System.out.print("Source User: ");
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
 				lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(accountList, accNumber);
-		Account targetAcc = null;
+		mainAcc = checkAcc(UserList, accNumber);
+		User targetAcc = null;
 		if (mainAcc == null)
 			existingAcc();
 		else {
 			if (mainAcc.getBalance() == 0) {
-				System.out.println("\n**Not Enough Founds On Selected Account For Transfer!**\n");
+				System.out.println("\n**Not Enough Founds On Selected User For Transfer!**\n");
 				return;
 			}
 			do {
@@ -257,12 +257,12 @@ public class Test {
 			if (pin == mainAcc.getPin()) {
 				do {
 					do {
-						System.out.print("Target Account: ");
+						System.out.print("Target User: ");
 						accNumber = input.nextInt();
 						if (Integer.toString(accNumber).length() != 6)
 							lenghtAcc();
 					} while (checkAccNumber(accNumber));
-					for (Account checkAcc: accountList) {
+					for (User checkAcc: UserList) {
 						if (checkAcc.getNumber() == accNumber) {
 							targetAcc = checkAcc;
 							break;
@@ -272,7 +272,7 @@ public class Test {
 						existingAcc();
 						System.out.println();
 					} else if (targetAcc == mainAcc)
-						System.out.println("\n**You Can't Tranfer Money To Source Account**\n");
+						System.out.println("\n**You Can't Tranfer Money To Source User**\n");
 				} while (targetAcc == null || targetAcc == mainAcc);
 				do {
 					System.out.print("Value: ");
@@ -294,18 +294,18 @@ public class Test {
 	private static void accStatus() {
 		
 		int accNumber, pin;
-		if (accountList.isEmpty()) {
+		if (UserList.isEmpty()) {
 			existingAccs();
 			return;
 		}
-		System.out.println("\n---ACCOUNT STATUS---\n");
+		System.out.println("\n---User STATUS---\n");
 		do {
-			System.out.print("Account Number: ");
+			System.out.print("User Number: ");
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
 				lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(accountList, accNumber);
+		mainAcc = checkAcc(UserList, accNumber);
 		if (mainAcc == null)
 			existingAcc();
 		else {
@@ -336,11 +336,11 @@ public class Test {
 			switch (choice) {
 			
 			case 1:
-				createAccount();
+				createUser();
 				break;
 				
 			case 2:
-				removeAccount();
+				removeUser();
 				break;
 				
 			case 3:
