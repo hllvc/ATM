@@ -3,14 +3,19 @@ import java.util.ArrayList;
 public class Account {
 
 	private double balance;
+	private String name;
+	private String surname;
 	private int number;
 	private int pin;
-	private ArrayList<Integer> numbers = new ArrayList<>();
+	private ArrayList<Integer> numbers;
 	
-	public Account() {
+	public Account(String name, String surname) {
+		this.name = name;
+		this.surname = surname;
+		this.balance = 0;
+		numbers = new ArrayList<>();
 		generateRandomNumber();
 		generateRandompin();
-		this.balance = 0;
 	}
 	
 	private void generateRandomNumber() {
@@ -39,6 +44,14 @@ public class Account {
 		return this.pin;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
 	public void addBalance(double balance) {
 		this.balance += balance;
 	}

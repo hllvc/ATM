@@ -4,58 +4,12 @@ import java.util.Scanner;
 public class Test {
 	
 	private static Scanner input = new Scanner(System.in);
-	private static ArrayList<User> UserList = new ArrayList<>();
-	private static User mainAcc;
+	private static ArrayList<Account> AccountsList = new ArrayList<>();
+	private static Account account1;
 	
-	private static void mainMenuText() {
+	private static Account checkAcc(ArrayList<Account> AccountsList, int accNumber) {
 		
-		System.out.println("___________________________________________________________________\n"
-				+ "\n----MAIN MENU----\n\n"
-				+ "1) Create User\n"
-				+ "2) Remove User\n"
-				+ "3) Add Money\n"
-				+ "4) Withdraw Money\n"
-				+ "5) Transfter Money To Another User\n"
-				+ "6) User Info\n"
-				+ "\n0. Exit\n"
-				+ "___________________________________________________________________\n");
-		System.out.print("Your Choice: ");
-		
-	}
-	
-	private static void existingAccs() {
-		
-		System.out.println("\n**There Are No Existing Users!**");
-		
-	}
-	
-	private static void existingAcc() {
-		
-		System.out.print("\n**User doesn't exist!**\n");
-		
-	}
-	
-	private static void lenghtAcc() {
-
-		System.out.println("\n**Lenght Of User Number Is Six**\n");
-		
-	}
-
-	private static void lenghtPIN() {
-
-		System.out.println("\n**Lenght Of PIN Is Four**\n");
-		
-	}
-	
-	private static void belowZero() {
-		
-		System.out.println("\n**Value Can't Be Below Zero!**");
-		
-	}
-	
-	private static User checkAcc(ArrayList<User> UserList, int accNumber) {
-		
-		for (User checkAcc: UserList) {
+		for (Account checkAcc: AccountsList) {
 			if (checkAcc.getNumber() == accNumber) {
 				return checkAcc;
 			}
@@ -82,211 +36,212 @@ public class Test {
 		
 	}
 	
-	private static void createUser() {
+	private static void createAccount() {
 		
-		System.out.println("\n---CREATE User---\n");
+		AllText.createAccTitle();
 		input.nextLine();
 		String name, surname;
-		System.out.print("Your Name: ");
+		AllText.name();
 		name = input.nextLine();
-		System.out.print("Your Surname: ");
+		AllText.surname();
 		surname = input.nextLine();
-		mainAcc = new User(name, surname);
-		System.out.println("\n**You Have Created Your User Successfully!**\n");
-		System.out.println(mainAcc + mainAcc.attention());
-		UserList.add(mainAcc);
+		account1 = new Account(name, surname);
+		AllText.accCreation();
+		AllText.accountInfo(account1);
+		AllText.attention();
+		AccountsList.add(account1);
 		
 	}
 	
-	private static void removeUser() {
+	private static void removeAccount() {
 		
 		int accNumber, pin;
-		if (UserList.isEmpty()) {
-			existingAccs();
+		if (AccountsList.isEmpty()) {
+			AllText.existingAccs();
 			return;
 		}
-		System.out.println("\n---REMOVE User---\n");
+		AllText.removeAccTitle();
 		do {
-			System.out.print("User Number: ");
+			AllText.accNumber();
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
-				lenghtAcc();
+				AllText.lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(UserList, accNumber);
-		if (mainAcc == null)
-			existingAcc();
+		account1 = checkAcc(AccountsList, accNumber);
+		if (account1 == null)
+			AllText.existingAcc();
 		else {
 			do {
-				System.out.print("PIN: ");
+				AllText.pin();
 				pin = input.nextInt();
 				if (Integer.toString(pin).length() != 4)
-					lenghtPIN();
-			} while (checkPIN(pin) && mainAcc.getPin() != pin);
-			if (pin == mainAcc.getPin()) {
-				UserList.remove(mainAcc);
-				System.out.println("\n**You Have Removed Your User Successfully!**\n");
+					AllText.lenghtPIN();
+			} while (checkPIN(pin) && account1.getPin() != pin);
+			if (pin == account1.getPin()) {
+				AccountsList.remove(account1);
+				AllText.removedAcc();
 			}
 			else
-				System.out.println("\n**Wrong PIN**\n");
+				AllText.wrongPIN();
 		}
 		
 	}
 	
 	private static void addMoney() {
 		
-		if (UserList.isEmpty()) {
-			existingAccs();
+		if (AccountsList.isEmpty()) {
+			AllText.existingAccs();
 			return;
 		}
 		
 		int accNumber, pin;
 		double value;
-		System.out.println("\n---ADD MONEY---\n");
+		AllText.addMoneyTitle();
 		do {
-			System.out.print("User Number: ");
+			AllText.accNumber();
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
-				lenghtAcc();
+				AllText.lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(UserList, accNumber);
-		if (mainAcc == null)
-			existingAcc();
+		account1 = checkAcc(AccountsList, accNumber);
+		if (account1 == null)
+			AllText.existingAcc();
 		else {
 			do {
-				System.out.print("PIN: ");
+				AllText.pin();
 				pin = input.nextInt();
 				if (Integer.toString(pin).length() != 4)
-					lenghtPIN();
+					AllText.lenghtPIN();
 			} while (checkPIN(pin));
-			if (pin == mainAcc.getPin()) {
+			if (pin == account1.getPin()) {
 				do {
-					System.out.print("Value: ");
+					AllText.value();
 					value = input.nextDouble();
 					if (value < 0)
-						belowZero();
+						AllText.belowZero();
 				} while (value < 0);
-				mainAcc.addBalance(value);
-				System.out.println("\n**Money Successfully Added To Your User!**\n");
+				account1.addBalance(value);
+				AllText.addedMoney();
 			} else
-				System.out.println("\n**Wrong PIN**\n");
+				AllText.wrongPIN();
 		}
 		
 	}
 	
 	private static void withdrawMoney() {
 		
-		if (UserList.isEmpty()) {
-			existingAccs();
+		if (AccountsList.isEmpty()) {
+			AllText.existingAccs();
 			return;
 		}
 		
 		int accNumber, pin;
 		double value;
-		System.out.println("\n---WITHDRAWAL---\n");
+		AllText.withdrawalTitle();
 		do {
-			System.out.print("User Number: ");
+			AllText.accNumber();
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
-				lenghtAcc();
+				AllText.lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(UserList, accNumber);
-		if (mainAcc == null)
-			existingAcc();
+		account1 = checkAcc(AccountsList, accNumber);
+		if (Account1 == null)
+			AllText.existingAcc();
 		else {
-			if (mainAcc.getBalance() == 0) {
-				System.out.println("\n**Not Enough Founds On Selected User For Withrawal!**\n");
+			if (account1.getBalance() == 0) {
+				AllText.noFounds();
 				return;
 			}
 			do {
-				System.out.print("PIN: ");
+				AllText.pin();
 				pin = input.nextInt();
 				if (Integer.toString(pin).length() != 4)
-					lenghtPIN();
+					AllText.lenghtPIN();
 			} while (checkPIN(pin));
-			if (pin == mainAcc.getPin()) {
+			if (pin == account1.getPin()) {
 				do {
-					System.out.print("Value: ");
+					AllText.value();
 					value = input.nextDouble();
 					if (value < 0)
-						belowZero();
-					else if (value > mainAcc.getBalance())
-					System.out.println("\n**Not Enough Founds**\n");
-				} while (value < 0 || value > mainAcc.getBalance());
-				mainAcc.removeBalance(value);
-				System.out.println("\n**Don't Forget To PickUp Your Money Before Leaving! :)**\n");
+						AllText.belowZero();
+					else if (value > account1.getBalance())
+					AllText.noFounds();
+				} while (value < 0 || value > account1.getBalance());
+				account1.removeBalance(value);
+				AllText.pickUpMsg();
 			} else
-				System.out.println("\n**Wrong PIN**\n");
+				AllText.wrongPIN();
 		}
 
 	}
 	
 	private static void transferMoney() {
 		
-		if (UserList.isEmpty() || UserList.size() < 2) {
-			if (UserList.isEmpty())
-				existingAccs();
+		if (AccountsList.isEmpty() || AccountsList.size() < 2) {
+			if (AccountsList.isEmpty())
+				AllText.existingAccs();
 			else
-				System.out.println("\n**Minimal Number Of Users For Transfer Is 2 (Two)!**\n");
+				AllText.minAccs();
 			return;
 		}
 		
 		int accNumber, pin;
 		double value;
-		System.out.println("\n---MONEY TRANSFER---\n");
+		AllText.moneyTransferTitle();
 		do {
-			System.out.print("Source User: ");
+			AllText.sourceAcc();
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
-				lenghtAcc();
+				AllText.lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(UserList, accNumber);
-		User targetAcc = null;
-		if (mainAcc == null)
-			existingAcc();
+		account1 = checkAcc(AccountsList, accNumber);
+		Account targetAcc = null;
+		if (account1 == null)
+			AllText.existingAcc();
 		else {
-			if (mainAcc.getBalance() == 0) {
-				System.out.println("\n**Not Enough Founds On Selected User For Transfer!**\n");
+			if (account1.getBalance() == 0) {
+				AllText.noFounds();
 				return;
 			}
 			do {
-				System.out.print("PIN: ");
+				AllText.pin();
 				pin = input.nextInt();
 				if (Integer.toString(pin).length() != 4)
-					lenghtPIN();
+					AllText.lenghtPIN();
 			} while (checkPIN(pin));
-			if (pin == mainAcc.getPin()) {
+			if (pin == account1.getPin()) {
 				do {
 					do {
-						System.out.print("Target User: ");
+						AllText.targetAcc();
 						accNumber = input.nextInt();
 						if (Integer.toString(accNumber).length() != 6)
-							lenghtAcc();
+							AllText.lenghtAcc();
 					} while (checkAccNumber(accNumber));
-					for (User checkAcc: UserList) {
+					for (Account checkAcc: AccountsList) {
 						if (checkAcc.getNumber() == accNumber) {
 							targetAcc = checkAcc;
 							break;
 						}
 					}
 					if (targetAcc == null) {
-						existingAcc();
+						AllText.existingAcc();
 						System.out.println();
-					} else if (targetAcc == mainAcc)
-						System.out.println("\n**You Can't Tranfer Money To Source User**\n");
-				} while (targetAcc == null || targetAcc == mainAcc);
+					} else if (targetAcc == account1)
+						AllText.noToSource();
+				} while (targetAcc == null || targetAcc == account1);
 				do {
-					System.out.print("Value: ");
+					AllText.value();
 					value = input.nextDouble();
 					if (value < 0)
-						belowZero();
-					else if (value > mainAcc.getBalance())
-						System.out.println("\n**Not Enough Founds**\n");
-				} while (value < 0 || value > mainAcc.getBalance());
-				mainAcc.removeBalance(value);
+						AllText.belowZero();
+					else if (value > account1.getBalance())
+						AllText.noFounds();
+				} while (value < 0 || value > account1.getBalance());
+				account1.removeBalance(value);
 				targetAcc.addBalance(value);
-				System.out.println("\n**Transfer Successful!**\n");
+				AllText.successfull();
 			} else
-				System.out.println("\n**Wrong PIN**\n");
+				AllText.wrongPIN();
 		}
 		
 	}
@@ -294,31 +249,31 @@ public class Test {
 	private static void accStatus() {
 		
 		int accNumber, pin;
-		if (UserList.isEmpty()) {
-			existingAccs();
+		if (AccountsList.isEmpty()) {
+			AllText.existingAccs();
 			return;
 		}
-		System.out.println("\n---User STATUS---\n");
+		AllText.accountStatusTitle();
 		do {
-			System.out.print("User Number: ");
+			AllText.accNumber();
 			accNumber = input.nextInt();
 			if (Integer.toString(accNumber).length() != 6)
-				lenghtAcc();
+				AllText.lenghtAcc();
 		} while (checkAccNumber(accNumber));
-		mainAcc = checkAcc(UserList, accNumber);
-		if (mainAcc == null)
-			existingAcc();
+		account1 = checkAcc(AccountsList, accNumber);
+		if (account1 == null)
+			AllText.existingAcc();
 		else {
 			do {
-				System.out.print("PIN: ");
+				AllText.pin();
 				pin = input.nextInt();
 				if (Integer.toString(pin).length() != 4)
-					lenghtPIN();
-			} while (checkPIN(pin) && mainAcc.getPin() != pin);
-			if (pin == mainAcc.getPin())
-				System.out.println(mainAcc);
+					AllText.lenghtPIN();
+			} while (checkPIN(pin) && account1.getPin() != pin);
+			if (pin == account1.getPin())
+				System.out.println(account1);
 			else
-				System.out.println("\n**Wrong PIN**\n");
+				AllText.wrongPIN();
 		}
 
 
@@ -330,17 +285,17 @@ public class Test {
 		byte choice;
 		do {
 			
-			mainMenuText();
+			AllText.mainMenuText();
 			choice = input.nextByte();
 			
 			switch (choice) {
 			
 			case 1:
-				createUser();
+				createAccount();
 				break;
 				
 			case 2:
-				removeUser();
+				removeAccount();
 				break;
 				
 			case 3:
@@ -361,13 +316,13 @@ public class Test {
 				
 			default:
 				if (choice != 0)
-					System.out.println("\n**There Are No Available Options For Your Choice**\n");
+					AllText.noOptions();
 				break;
 			
 			}
 			
 		} while (choice != 0);
-		System.out.println("\n**The ATM Has Stopped**");
+		AllText.stopped();
 		
 	}
 	
