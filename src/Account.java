@@ -7,7 +7,7 @@ public class Account {
 	private String surname;
 	private int number;
 	private int pin;
-	private ArrayList<Integer> numbers;
+	private ArrayList<Integer> numbers = new ArrayList<Integer>();
 	
 	public Account(String name, String surname) {
 		this.name = name;

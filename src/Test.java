@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Test {
 	
 	private static Scanner input = new Scanner(System.in);
-	private static ArrayList<Account> AccountsList = new ArrayList<>();
+	private static ArrayList<Account> AccountsList = new ArrayList<Account>();
 	private static Account account1;
 	
 	private static Account checkAcc(ArrayList<Account> AccountsList, int accNumber) {
@@ -55,28 +55,39 @@ public class Test {
 	
 	private static void removeAccount() {
 		
-		int accNumber, pin;
 		if (AccountsList.isEmpty()) {
 			AllText.existingAccs();
 			return;
 		}
 		AllText.removeAccTitle();
+		int accNumber = 0;
 		do {
-			AllText.accNumber();
-			accNumber = input.nextInt();
-			if (Integer.toString(accNumber).length() != 6)
-				AllText.lenghtAcc();
-		} while (checkAccNumber(accNumber));
+			try {
+				AllText.accNumber();
+				accNumber = input.nextInt();
+				if (Integer.toString(accNumber).length() != 6)
+					AllText.lenghtAcc();
+			} catch (Exception e) {
+				System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+				input.nextLine();
+			}
+		} while (checkAccNumber(accNumber) || accNumber == 0);
 		account1 = checkAcc(AccountsList, accNumber);
 		if (account1 == null)
 			AllText.existingAcc();
 		else {
+			int pin = 0;
 			do {
-				AllText.pin();
-				pin = input.nextInt();
-				if (Integer.toString(pin).length() != 4)
-					AllText.lenghtPIN();
-			} while (checkPIN(pin) && account1.getPin() != pin);
+				try {
+					AllText.pin();
+					pin = input.nextInt();
+					if (Integer.toString(pin).length() != 4)
+						AllText.lenghtPIN();
+				} catch (Exception e) {
+					System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+					input.nextLine();
+				}
+			} while (checkPIN(pin) && account1.getPin() != pin || pin == 0);
 			if (pin == account1.getPin()) {
 				AccountsList.remove(account1);
 				AllText.removedAcc();
@@ -94,25 +105,36 @@ public class Test {
 			return;
 		}
 		
-		int accNumber, pin;
-		double value;
 		AllText.addMoneyTitle();
+		int accNumber = 0;
+		double value;
 		do {
-			AllText.accNumber();
-			accNumber = input.nextInt();
-			if (Integer.toString(accNumber).length() != 6)
-				AllText.lenghtAcc();
-		} while (checkAccNumber(accNumber));
+			try {
+				AllText.accNumber();
+				accNumber = input.nextInt();
+				if (Integer.toString(accNumber).length() != 6)
+					AllText.lenghtAcc();
+			} catch (Exception e) {
+				System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+				input.nextLine();
+			}
+		} while (checkAccNumber(accNumber) || accNumber == 0);
 		account1 = checkAcc(AccountsList, accNumber);
 		if (account1 == null)
 			AllText.existingAcc();
 		else {
+			int pin = 0;
 			do {
-				AllText.pin();
-				pin = input.nextInt();
-				if (Integer.toString(pin).length() != 4)
-					AllText.lenghtPIN();
-			} while (checkPIN(pin));
+				try {
+					AllText.pin();
+					pin = input.nextInt();
+					if (Integer.toString(pin).length() != 4)
+						AllText.lenghtPIN();
+				} catch (Exception e) {
+					System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+					input.nextLine();
+				}
+			} while (checkPIN(pin) || pin == 0);
 			if (pin == account1.getPin()) {
 				do {
 					AllText.value();
@@ -135,15 +157,20 @@ public class Test {
 			return;
 		}
 		
-		int accNumber, pin;
 		double value;
 		AllText.withdrawalTitle();
+		int accNumber = 0;
 		do {
-			AllText.accNumber();
-			accNumber = input.nextInt();
-			if (Integer.toString(accNumber).length() != 6)
-				AllText.lenghtAcc();
-		} while (checkAccNumber(accNumber));
+			try {
+				AllText.accNumber();
+				accNumber = input.nextInt();
+				if (Integer.toString(accNumber).length() != 6)
+					AllText.lenghtAcc();
+			} catch (Exception e) {
+				System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+				input.nextLine();
+			}
+		} while (checkAccNumber(accNumber) || accNumber == 0);
 		account1 = checkAcc(AccountsList, accNumber);
 		if (account1 == null)
 			AllText.existingAcc();
@@ -152,12 +179,18 @@ public class Test {
 				AllText.noFounds();
 				return;
 			}
+			int pin = 0;
 			do {
-				AllText.pin();
-				pin = input.nextInt();
-				if (Integer.toString(pin).length() != 4)
-					AllText.lenghtPIN();
-			} while (checkPIN(pin));
+				try {
+					AllText.pin();
+					pin = input.nextInt();
+					if (Integer.toString(pin).length() != 4)
+						AllText.lenghtPIN();
+				} catch (Exception e) {
+					System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+					input.nextLine();
+				}
+			} while (checkPIN(pin) || pin == 0);
 			if (pin == account1.getPin()) {
 				do {
 					AllText.value();
@@ -185,15 +218,20 @@ public class Test {
 			return;
 		}
 		
-		int accNumber, pin;
+		int accNumber = 0;
 		double value;
 		AllText.moneyTransferTitle();
 		do {
-			AllText.sourceAcc();
-			accNumber = input.nextInt();
-			if (Integer.toString(accNumber).length() != 6)
-				AllText.lenghtAcc();
-		} while (checkAccNumber(accNumber));
+			try {
+				AllText.accNumber();
+				accNumber = input.nextInt();
+				if (Integer.toString(accNumber).length() != 6)
+					AllText.lenghtAcc();
+			} catch (Exception e) {
+				System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+				input.nextLine();
+			}
+		} while (checkAccNumber(accNumber) || accNumber == 0);
 		account1 = checkAcc(AccountsList, accNumber);
 		Account targetAcc = null;
 		if (account1 == null)
@@ -203,20 +241,31 @@ public class Test {
 				AllText.noFounds();
 				return;
 			}
+			int pin = 0;
 			do {
-				AllText.pin();
-				pin = input.nextInt();
-				if (Integer.toString(pin).length() != 4)
-					AllText.lenghtPIN();
-			} while (checkPIN(pin));
+				try {
+					AllText.pin();
+					pin = input.nextInt();
+					if (Integer.toString(pin).length() != 4)
+						AllText.lenghtPIN();
+				} catch (Exception e) {
+					System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+					input.nextLine();
+				}
+			} while (checkPIN(pin) || pin == 0);
 			if (pin == account1.getPin()) {
 				do {
 					do {
-						AllText.targetAcc();
-						accNumber = input.nextInt();
-						if (Integer.toString(accNumber).length() != 6)
-							AllText.lenghtAcc();
-					} while (checkAccNumber(accNumber));
+						try {
+							AllText.targetAcc();
+							accNumber = input.nextInt();
+							if (Integer.toString(accNumber).length() != 6)
+								AllText.lenghtAcc();
+						} catch (Exception e) {
+							System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+							input.nextLine();
+						}
+					} while (checkAccNumber(accNumber) || accNumber == 0);
 					for (Account checkAcc: AccountsList) {
 						if (checkAcc.getNumber() == accNumber) {
 							targetAcc = checkAcc;
@@ -248,30 +297,41 @@ public class Test {
 	
 	private static void accStatus() {
 		
-		int accNumber, pin;
 		if (AccountsList.isEmpty()) {
 			AllText.existingAccs();
 			return;
 		}
 		AllText.accountStatusTitle();
+		int accNumber = 0;
 		do {
-			AllText.accNumber();
-			accNumber = input.nextInt();
-			if (Integer.toString(accNumber).length() != 6)
-				AllText.lenghtAcc();
-		} while (checkAccNumber(accNumber));
+			try {
+				AllText.accNumber();
+				accNumber = input.nextInt();
+				if (Integer.toString(accNumber).length() != 6)
+					AllText.lenghtAcc();
+			} catch (Exception e) {
+				System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+				input.nextLine();
+			}
+		} while (checkAccNumber(accNumber) || accNumber == 0);
 		account1 = checkAcc(AccountsList, accNumber);
 		if (account1 == null)
 			AllText.existingAcc();
 		else {
+			int pin = 0;
 			do {
-				AllText.pin();
-				pin = input.nextInt();
-				if (Integer.toString(pin).length() != 4)
-					AllText.lenghtPIN();
-			} while (checkPIN(pin) && account1.getPin() != pin);
+				try {
+					AllText.pin();
+					pin = input.nextInt();
+					if (Integer.toString(pin).length() != 4)
+						AllText.lenghtPIN();
+				} catch (Exception e) {
+					System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+					input.nextLine();
+				}
+			} while (checkPIN(pin) || pin == 0);
 			if (pin == account1.getPin())
-				System.out.println(account1);
+				AllText.accountInfo(account1);
 			else
 				AllText.wrongPIN();
 		}
@@ -283,46 +343,51 @@ public class Test {
 	private static void mainMenu() {
 		
 		byte choice;
-		do {
-			
-			AllText.mainMenuText();
-			choice = input.nextByte();
-			
-			switch (choice) {
-			
-			case 1:
-				createAccount();
-				break;
+		try {
+			do {
 				
-			case 2:
-				removeAccount();
-				break;
+				AllText.mainMenuText();
+				choice = input.nextByte();
 				
-			case 3:
-				addMoney();
-				break;
+				switch (choice) {
 				
-			case 4:
-				withdrawMoney();
-				break;
+				case 1:
+					createAccount();
+					break;
+					
+				case 2:
+					removeAccount();
+					break;
+					
+				case 3:
+					addMoney();
+					break;
+					
+				case 4:
+					withdrawMoney();
+					break;
+					
+				case 5:
+					transferMoney();
+					break;
+					
+				case 6:
+					accStatus();
+					break;
+					
+				default:
+					if (choice != 0)
+						AllText.noOptions();
+					break;
 				
-			case 5:
-				transferMoney();
-				break;
+				}
 				
-			case 6:
-				accStatus();
-				break;
-				
-			default:
-				if (choice != 0)
-					AllText.noOptions();
-				break;
-			
-			}
-			
-		} while (choice != 0);
-		AllText.stopped();
+			} while (choice != 0);
+		} catch (Exception e) {
+			System.out.println("\n**NUMBER INPUT IS REQUIRED!**");
+			input.nextLine();
+			mainMenu();
+		}
 		
 	}
 	
@@ -330,6 +395,7 @@ public class Test {
 		
 		mainMenu();
 		input.close();
+		AllText.stopped();
 		
 	}
 	
