@@ -8,7 +8,7 @@ public class Test {
 	private static Scanner input = new Scanner(System.in);
 	private static ArrayList<Account> accountsList = new ArrayList<Account>();
 	private static Account account1;
-	private static File file = new File(".localFiles/Accounts.txt");
+	private static File file = new File(".Accounts.txt");
 	private static Account checkAcc(ArrayList<Account> accountsList, int accNumber) {
 		
 		for (Account checkAcc: accountsList) {
