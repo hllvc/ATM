@@ -1,15 +1,17 @@
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Test {
 	
 	private static Scanner input = new Scanner(System.in);
-	private static ArrayList<Account> AccountsList = new ArrayList<Account>();
+	private static ArrayList<Account> accountsList = new ArrayList<Account>();
 	private static Account account1;
-	
-	private static Account checkAcc(ArrayList<Account> AccountsList, int accNumber) {
+	private static File file = new File(".localFiles/Accounts.txt");
+	private static Account checkAcc(ArrayList<Account> accountsList, int accNumber) {
 		
-		for (Account checkAcc: AccountsList) {
+		for (Account checkAcc: accountsList) {
 			if (checkAcc.getNumber() == accNumber) {
 				return checkAcc;
 			}
@@ -49,13 +51,13 @@ public class Test {
 		AllText.accCreation();
 		AllText.accountInfo(account1);
 		AllText.attention();
-		AccountsList.add(account1);
+		accountsList.add(account1);
 		
 	}
 	
 	private static void removeAccount() {
 		
-		if (AccountsList.isEmpty()) {
+		if (accountsList.isEmpty()) {
 			AllText.existingAccs();
 			return;
 		}
@@ -72,7 +74,7 @@ public class Test {
 				input.nextLine();
 			}
 		} while (checkAccNumber(accNumber) || accNumber == 0);
-		account1 = checkAcc(AccountsList, accNumber);
+		account1 = checkAcc(accountsList, accNumber);
 		if (account1 == null)
 			AllText.existingAcc();
 		else {
@@ -89,7 +91,7 @@ public class Test {
 				}
 			} while (checkPIN(pin) && account1.getPin() != pin || pin == 0);
 			if (pin == account1.getPin()) {
-				AccountsList.remove(account1);
+				accountsList.remove(account1);
 				AllText.removedAcc();
 			}
 			else
@@ -100,7 +102,7 @@ public class Test {
 	
 	private static void addMoney() {
 		
-		if (AccountsList.isEmpty()) {
+		if (accountsList.isEmpty()) {
 			AllText.existingAccs();
 			return;
 		}
@@ -119,7 +121,7 @@ public class Test {
 				input.nextLine();
 			}
 		} while (checkAccNumber(accNumber) || accNumber == 0);
-		account1 = checkAcc(AccountsList, accNumber);
+		account1 = checkAcc(accountsList, accNumber);
 		if (account1 == null)
 			AllText.existingAcc();
 		else {
@@ -152,7 +154,7 @@ public class Test {
 	
 	private static void withdrawMoney() {
 		
-		if (AccountsList.isEmpty()) {
+		if (accountsList.isEmpty()) {
 			AllText.existingAccs();
 			return;
 		}
@@ -171,7 +173,7 @@ public class Test {
 				input.nextLine();
 			}
 		} while (checkAccNumber(accNumber) || accNumber == 0);
-		account1 = checkAcc(AccountsList, accNumber);
+		account1 = checkAcc(accountsList, accNumber);
 		if (account1 == null)
 			AllText.existingAcc();
 		else {
@@ -210,8 +212,8 @@ public class Test {
 	
 	private static void transferMoney() {
 		
-		if (AccountsList.isEmpty() || AccountsList.size() < 2) {
-			if (AccountsList.isEmpty())
+		if (accountsList.isEmpty() || accountsList.size() < 2) {
+			if (accountsList.isEmpty())
 				AllText.existingAccs();
 			else
 				AllText.minAccs();
@@ -232,7 +234,7 @@ public class Test {
 				input.nextLine();
 			}
 		} while (checkAccNumber(accNumber) || accNumber == 0);
-		account1 = checkAcc(AccountsList, accNumber);
+		account1 = checkAcc(accountsList, accNumber);
 		Account targetAcc = null;
 		if (account1 == null)
 			AllText.existingAcc();
@@ -266,7 +268,7 @@ public class Test {
 							input.nextLine();
 						}
 					} while (checkAccNumber(accNumber) || accNumber == 0);
-					for (Account checkAcc: AccountsList) {
+					for (Account checkAcc: accountsList) {
 						if (checkAcc.getNumber() == accNumber) {
 							targetAcc = checkAcc;
 							break;
@@ -297,7 +299,7 @@ public class Test {
 	
 	private static void accStatus() {
 		
-		if (AccountsList.isEmpty()) {
+		if (accountsList.isEmpty()) {
 			AllText.existingAccs();
 			return;
 		}
@@ -314,7 +316,7 @@ public class Test {
 				input.nextLine();
 			}
 		} while (checkAccNumber(accNumber) || accNumber == 0);
-		account1 = checkAcc(AccountsList, accNumber);
+		account1 = checkAcc(accountsList, accNumber);
 		if (account1 == null)
 			AllText.existingAcc();
 		else {
@@ -391,11 +393,59 @@ public class Test {
 		
 	}
 	
+	private static void readFiles() {
+		try {
+			Scanner readFile = new Scanner(file);
+			Account acc;
+			try {
+				do {
+					acc  = new Account(readFile.nextLine(), readFile.nextLine());
+					acc.setBalance(readFile.nextDouble());
+					acc.setNumber(readFile.nextInt());
+					acc.setPin(readFile.nextInt());
+					readFile.nextLine();
+					readFile.nextLine();
+					accountsList.add(acc);
+				} while (readFile.hasNextLine() && readFile.hasNext());
+			} catch (Exception e) {
+				System.out.println("\n**Error While Reading Data!");
+			}
+			readFile.close();
+		} catch (Exception e) {
+			System.out.println("\n**Hello.\n**Wellcome To Your Virtual ATM Machine.\n**Hope You Enjoy IT!");			
+		}
+	}
+	
+	private static void writeFiles() {
+		try {
+			PrintWriter output = new PrintWriter(file);
+			try {
+				for (Account acc : accountsList) {
+					output.println(acc.getName());
+					output.println(acc.getSurname());
+					output.println(acc.getBalance());
+					output.println(acc.getNumber());
+					output.println(acc.getPin());
+					output.println();
+				}
+			} catch (Exception e) {
+				System.out.println("\n**Can Not Write To A File!\n**Your Changes Won't Be Saved!");
+			}
+			output.close();
+		} catch (Exception e) {
+			System.out.println("\n**File Not Found!");
+		}
+	} 
+	
 	public static void main(String[] args) {
+		
+		readFiles();
 		
 		mainMenu();
 		input.close();
 		AllText.stopped();
+		
+		writeFiles();
 		
 	}
 	

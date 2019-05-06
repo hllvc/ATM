@@ -40,16 +40,33 @@ public class Account {
 		return this.number;
 	}
 	
+	public void setNumber(int number) {
+		this.number = number;
+		this.numbers.add(this.number);
+	}
+	
 	public int getPin() {
 		return this.pin;
+	}
+	
+	public void setPin(int pin) {
+		this.pin = pin;
 	}
 	
 	public String getName() {
 		return name;
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getSurname() {
 		return surname;
+	}
+	
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public void addBalance(double balance) {
@@ -62,6 +79,10 @@ public class Account {
 	
 	public double getBalance() {
 		return this.balance;
+	}
+	
+	public void setBalance(double balance) {
+		this.balance = balance;
 	}
 	
 }
